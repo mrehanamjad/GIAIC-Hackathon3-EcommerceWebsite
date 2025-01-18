@@ -1,0 +1,184 @@
+{
+  "products": [
+    {
+      "id": "1",
+      "name": "Trenton Modular Sofa",
+      "price": 25000.0,
+      "imagePath": "/products/Mask group (1).png",
+      "description": "Stylish and versatile modular sofa with deep cushions, sturdy frame, and easy-to-clean fabric. Perfect for modern living spaces.",
+      "category": "Furniture",
+      "tags": ["sofa", "living room", "modular"]
+    },
+    {
+      "id": "2",
+      "name": "Granite Dining Table Set",
+      "price": 25000.0,
+      "imagePath": "/products/Mask group (2).png",
+      "description": "Elegant granite table with cushioned chairs for comfort and durability. Ideal for family dinners and gatherings.",
+      "category": "Dining",
+      "tags": ["dining table", "chairs", "granite"]
+    },
+    {
+      "id": "3",
+      "name": "Outdoor Bar Table Set",
+      "price": 25000.0,
+      "imagePath": "/products/Mask group (3).png",
+      "description": "Weather-resistant bar table and stools designed for outdoor entertainment. Durable, stylish, and comfortable for social events.",
+      "category": "Outdoor",
+      "tags": ["bar table", "outdoor", "stool"]
+    },
+    {
+      "id": "4",
+      "name": "Plain Console with Teak Mirror",
+      "price": 25000.0,
+      "imagePath": "/products/Mask group (4).png",
+      "description": "Minimalist console table with a teak-framed mirror, offering style and functionality for entryways or living spaces.",
+      "category": "Decor",
+      "tags": ["console", "mirror", "teak"]
+    },
+    {
+      "id": "5",
+      "name": "Grain Coffee Table",
+      "price": 15000.0,
+      "imagePath": "/products/Mask group (5).png",
+      "description": "Rustic wooden coffee table with a natural grain finish, blending modern design with durable construction for daily use.",
+      "category": "Furniture",
+      "tags": ["coffee table", "living room", "wood"]
+    },
+    {
+      "id": "6",
+      "name": "Kent Coffee Table",
+      "price": 225000.0,
+      "imagePath": "/products/Mask group (6).png",
+      "description": "Sleek, modern coffee table with a premium finish and sturdy base. A statement piece for contemporary and classic interiors.",
+      "category": "Furniture",
+      "tags": ["coffee table", "modern", "luxury"]
+    },
+    {
+      "id": "7",
+      "name": "Round Coffee Table, Color 2",
+      "price": 251000.0,
+      "imagePath": "/products/Mask group (7).png",
+      "description": "Elegant round coffee table with a spacious top and sturdy base. A stylish centerpiece for modern living rooms.",
+      "category": "Furniture",
+      "tags": ["round table", "modern", "living room"]
+    },
+    {
+      "id": "8",
+      "name": "Reclaimed Teak Coffee Table",
+      "price": 25200.0,
+      "imagePath": "/products/Mask group (8).png",
+      "description": "Eco-friendly coffee table made from reclaimed teak wood with a natural finish. Durable and perfect for rustic interiors.",
+      "category": "Furniture",
+      "tags": ["teak", "eco-friendly", "coffee table"]
+    },
+    {
+      "id": "9",
+      "name": "Plain Console",
+      "price": 258200.0,
+      "imagePath": "/products/Mask group (9).png",
+      "description": "Minimalist console table with a spacious top and clean design. Ideal for entryways or living rooms.",
+      "category": "Decor",
+      "tags": ["console", "minimalist", "entryway"]
+    },
+    {
+      "id": "10",
+      "name": "Reclaimed Teak Sideboard",
+      "price": 20000.0,
+      "imagePath": "/products/Mask group (10).png",
+      "description": "Sustainably crafted teak sideboard with ample storage. Combines rustic charm with modern functionality.",
+      "category": "Furniture",
+      "tags": ["sideboard", "storage", "teak"]
+    },
+    {
+      "id": "11",
+      "name": "SJP 0825",
+      "price": 200000.0,
+      "imagePath": "/products/Mask group (11).png",
+      "description": "Modern furniture piece with clean lines and a premium finish. A bold statement for upscale interiors.",
+      "category": "Furniture",
+      "tags": ["modern", "luxury", "contemporary"]
+    },
+    {
+      "id": "12",
+      "name": "Bella Chair and Table",
+      "price": 100000.0,
+      "imagePath": "/products/Mask group (12).png",
+      "description": "Elegant dining set with a sturdy table and cushioned chairs. Perfect for both formal and casual settings.",
+      "category": "Furniture",
+      "tags": ["table", "chairs", "dining set"]
+    },
+    {
+      "id": "13",
+      "name": "Granite Square Side Table",
+      "price": 258800.0,
+      "imagePath": "/products/Mask group (13).png",
+      "description": "Stylish granite side table with a smooth surface and sturdy design. A versatile addition to modern living spaces.",
+      "category": "Furniture",
+      "tags": ["side table", "granite", "modern"]
+    },
+    {
+      "id": "14",
+      "name": "Reclaimed Teak Sideboard",
+      "price": 20000.0,
+      "imagePath": "/products/Mask group (10).png",
+      "description": "Eco-conscious teak sideboard with ample storage and a rustic finish. Perfect for organizing home essentials with style.",
+      "category": "Furniture",
+      "tags": ["sideboard", "storage", "teak"]
+    },
+    {
+      "id": "15",
+      "name": "SJP 0825",
+      "price": 200000.0,
+      "imagePath": "/products/Mask group (11).png",
+      "description": "Sophisticated modern furniture piece with clean lines and a premium finish. Ideal for upscale interiors and storage.",
+      "category": "Furniture",
+      "tags": ["modern", "luxury", "contemporary"]
+    },
+    {
+      "id": "16",
+      "name": "Bella Chair and Table",
+      "price": 100000.0,
+      "imagePath": "/products/Mask group (12).png",
+      "description": "Stylish dining set with a sturdy table and cushioned chairs. Combines comfort and elegance for dining or social spaces.",
+      "category": "Furniture",
+      "tags": ["table", "chairs", "dining set"]
+    },
+    {
+      "id": "17",
+      "name": "Granite Square Side Table",
+      "price": 258800.0,
+      "imagePath": "/products/Mask group (13).png",
+      "description": "Modern granite side table with a sleek surface and sturdy design. Great for living rooms, bedrooms, or offices.",
+      "category": "Furniture",
+      "tags": ["side table", "granite", "modern"]
+    },
+    {
+      "id": "18",
+      "name": "Asgaard Sofa",
+      "price": 250000.0,
+      "imagePath": "/products/Mask group (14).png",
+      "description": "Luxurious modern sofa with deep cushions and premium upholstery. Blends style and comfort for any living space.",
+      "category": "Furniture",
+      "tags": ["sofa", "modern", "luxury"]
+    },
+    {
+      "id": "19",
+      "name": "Maya Sofa Three-Seater",
+      "price": 115000.0,
+      "imagePath": "/products/Mask group (15).png",
+      "description": "Spacious three-seater sofa with plush cushions and a sturdy frame. A modern classic for family gatherings and relaxation.",
+      "category": "Furniture",
+      "tags": ["sofa", "three-seater", "modern"]
+    },
+    {
+      "id": "20",
+      "name": "Outdoor Sofa Set",
+      "price": 244000.0,
+      "imagePath": "/products/Mask group (16).png",
+      "description": "Weather-resistant outdoor sofa set with matching chairs and a coffee table. Perfect for patios, gardens, and balconies.",
+      "category": "Outdoor",
+      "tags": ["outdoor", "sofa set", "durable"]
+    }
+  ]
+}
