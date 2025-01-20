@@ -4,8 +4,12 @@ import Link from 'next/link';
 import { X, Menu } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import Container from './Container';
+import { useAppSelector } from '@/lib/store/hooks';
 
 const Header = () => {
+
+  const totalCartItems = useAppSelector(state => state.cart.items.length);
+
   const [isOpen, setIsOpen] = useState(false);
 
   const pathname = usePathname();
@@ -95,7 +99,8 @@ const Header = () => {
             />
           </svg>
         </span>
-        <Link href={'/cart'} id="cart" className="cursor-pointer">
+        <Link href={'/cart'} id="cart" className="cursor-pointer relative">
+        <div className={`h-6 w-6 flex justify-center items-center  absolute -top-3 -right-3 rounded-full ${!isHome ? 'bg-[#FBEBB5]' : 'bg-[#FFF]'}`}>{totalCartItems}</div>
           <svg
             width="28"
             height="28"
@@ -123,6 +128,9 @@ const Header = () => {
     </>
   );
 };
+
+
+
 
 export default Header;
 

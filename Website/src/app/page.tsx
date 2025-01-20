@@ -20,7 +20,7 @@ interface ProductI {
 async function getProducts() {
   try {
     const products = await client.fetch(
-      `*[_type == "product" && isFeaturedProduct == true][0..3]{id,name,imagePath,price}`
+      `*[_type == "product" && isFeaturedProduct == true]{id,name,imagePath,price}`
     );
     return products;
   } catch (error) {
@@ -30,7 +30,8 @@ async function getProducts() {
 }
 
 export default async function Home() {
-  const section3Products:ProductI[] = await getProducts();
+  const products:ProductI[] = await getProducts();
+  const section3Products:ProductI[] = products.filter((product,index) => index < 4);
 
   return (
     <div className="w-full">
