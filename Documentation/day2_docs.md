@@ -24,7 +24,7 @@ This furniture website provides users with a seamless shopping experience to bro
 
 <br>
 
-![System architecture](./systemarc.png "system architecture design")
+![System architecture](./asserts/systemarc.png "system architecture design")
 
 
 

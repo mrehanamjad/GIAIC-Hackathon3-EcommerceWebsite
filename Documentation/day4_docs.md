@@ -10,6 +10,7 @@
   Your browser does not support the video tag.
 </video>
 
+![Day4 video](./asserts/day4.mp4)
 
 ## Component Development Steps
 
