@@ -261,7 +261,6 @@ const ProductDetail = ({
   const [selectedSize, setSelectedSize] = useState("L");
   const [selectedColor, setSelectedColor] = useState("bg-[#816DFA]");
   const [quantity, setQuantity] = useState(1);
-  const [isZoomed, setIsZoomed] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
 
   // Image gallery handling
@@ -335,22 +334,13 @@ const ProductDetail = ({
                 width={1000}
                 height={1000}
                 className={`w-full h-[32rem] object-cover transition-all duration-500 
-                         ${isHovered ? 'scale-105' : 'scale-100'}
-                         ${isZoomed ? 'cursor-zoom-out' : 'cursor-zoom-in'}`}
-                onClick={() => setIsZoomed(!isZoomed)}
+                         ${isHovered ? 'scale-105' : 'scale-100'}`}
               />
 
               {/* Overlay Controls */}
               <div className={`absolute inset-0 transition-opacity duration-300
                             ${isHovered ? 'opacity-100' : 'opacity-0'}`}>
                 <div className="absolute top-4 right-4 flex gap-2">
-                  <button 
-                    onClick={() => setIsZoomed(!isZoomed)}
-                    className="p-2 bg-white/90 backdrop-blur-sm rounded-full
-                              hover:bg-white transition-all duration-300 group"
-                  >
-                    <ZoomIn className="w-5 h-5" />
-                  </button>
                   <button 
                     onClick={() => setIsLiked(!isLiked)}
                     className="p-2 bg-white/90 backdrop-blur-sm rounded-full

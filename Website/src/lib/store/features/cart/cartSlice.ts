@@ -45,14 +45,17 @@ const cartSlice = createSlice({
                 state.items.push(action.payload);
             }
 
-            saveCartToLocalStorage(state.items); // Save updated cart to localStorage
+            saveCartToLocalStorage(state.items); 
         },
-        removeFromCart: (state, action: PayloadAction<string>) => {
-            const CartItemd = action.payload;
-            state.items = state.items.filter((item) => item.id !== CartItemd);
-
-            saveCartToLocalStorage(state.items); // Save updated cart to localStorage
-        },
+        removeFromCart: (state, action: PayloadAction<{ id: string; color: string; size: string }>) => {
+            const { id, color, size } = action.payload;
+            state.items = state.items.filter((item) => {
+              return item.id !== id || item.color !== color || item.size !== size;
+            });
+          
+            saveCartToLocalStorage(state.items);
+          },
+          
         updateQuantity: (
             state,
             action: PayloadAction<{ id: string; size: string; color: string; quantity: number }>
@@ -67,11 +70,11 @@ const cartSlice = createSlice({
                 existingProduct.quantity = quantity;
             }
 
-            saveCartToLocalStorage(state.items); // Save updated cart to localStorage
+            saveCartToLocalStorage(state.items);
         },
         clearCart: (state) => {
             state.items = [];
-            saveCartToLocalStorage(state.items); // Clear cart in localStorage
+            saveCartToLocalStorage(state.items);
         },
     },
 });

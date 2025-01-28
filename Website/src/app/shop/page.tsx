@@ -2,7 +2,6 @@ import React from "react";
 import DeliveryServices from "@/components/DeliveryServices";
 import PageHero from "@/components/PageHero";
 import AllProducts from "@/components/shop/AllProducts";
-import ProductFilterBar from "@/components/shop/ProductFilterBar";
 import { client } from "@/sanity/lib/client";
 
 interface ProductI {
@@ -10,12 +9,13 @@ interface ProductI {
   name: string;
   imagePath: string;
   price: number;
+  category:string;
 }
 
 async function getProducts() {
   try {
     const products = await client.fetch(
-      `*[_type == "product"]{id,name,imagePath,price}`
+      `*[_type == "produc"]{id,name,imagePath,price,category}`
     );
     return products;
   } catch (error) {
@@ -29,7 +29,6 @@ async function ShopPage() {
   return (
     <div className="w-full">
       <PageHero name="Shop" />
-      <ProductFilterBar />
       <AllProducts products={products} />
       <DeliveryServices />
     </div>
@@ -37,3 +36,4 @@ async function ShopPage() {
 }
 
 export default ShopPage;
+

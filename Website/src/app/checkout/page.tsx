@@ -15,7 +15,7 @@ function page() {
       <Container className="px-4 my-10">
         <div className="w-full max-w-6xl mx-auto flex justify-between max-lg:flex-col max-lg:justify-center">
           <div className="w-full h-full text-black px-4 py-12 flex flex-col gap-9 max-lg:items-center">
-            <h2 className="font-semibold text-4xl mb-3">Login</h2>
+            <h2 className="font-semibold text-4xl mb-3">Billing details</h2>
             <div className="flex flex-col gap-9 max-sm:w-full">
               <div className="sm:flex max-sm:space-y-6 gap-4  flex-row justify-center items-center max-sm:w-full w-[24rem] ">
                 <Input label="First Name" className="w-full mx-0 " />

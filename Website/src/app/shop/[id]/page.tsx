@@ -1,6 +1,5 @@
 // "use client";
 import React from 'react';
-import data from '@/data/data.json'
 import ProductDetail from '@/components/ProductDetail';
 import ProductSection from '@/components/home/ProductSection';
 import ProductCard from '@/components/ProductCard';

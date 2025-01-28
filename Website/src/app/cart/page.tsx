@@ -1,120 +1,3 @@
-// "use client";
-// import React from "react";
-// import Container from "@/components/Container";
-// import DeliveryServices from "@/components/DeliveryServices";
-// import PageHero from "@/components/PageHero";
-// import Image from "next/image";
-// import { Button } from "@/components/ui/button";
-// import Link from "next/link";
-
-// function CartPage() {
-//   return (
-//     <div className="w-full">
-//       <PageHero name="Cart" />
-//       <Container className="p-9">
-//         <div className="max-w-6xl w-full mx-auto min-h-96 grid grid-cols-1 lg:grid-cols-3">
-//           <div className="lg:col-span-2 col-span-1 h-full w-full">
-//             <CartTable />
-//           </div>
-//           <div className="container mx-auto col-span-1 bg-[#FFF9E5] h-full flex justify-center items-center flex-col gap-9 max-lg:py-5 max-lg:my-6 w-full">
-//             <h2 className="font-semibold text-3xl mb-4">Cart Totals</h2>
-//             <div className="grid grid-cols-3  gap-6">
-//                 <span className="font-medium col-span-1">Subtotal</span><span className="text-[#9F9F9F] col-span-2">Rs. 250,000.00</span>
-//                 <span className="font-medium col-span-1">Total</span><span className="text-[#B88E2F] text-xl col-span-2">Rs. 250,000.00</span>
-//             </div>
-//             <Link href="/checkout">
-//             <Button variant={"fBtn2"} size={'f2'}>Check Out</Button></Link>
-//           </div>
-//         </div>
-//       </Container>
-//       <DeliveryServices />
-//     </div>
-//   );
-// }
-
-// export default CartPage;
-
-// const CartTable = () => {
-
-//   const cartItems = [
-//     {
-//       id: 1,
-//       image: "/Asgaard sofa 1.png",
-//       name: "Wireless Headphones",
-//       price: 99.99,
-//       quantity: 1,
-//     },
-//   ];
-
-//   return (
-//     <div className="container mx-auto p-4 max-sm:overflow-x-scroll">
-//       <table className="w-full border-collapse ">
-//         <thead className="mb-4">
-//           <tr className="bg-[#FFF9E5] font-medium">
-//             <th className="p-3 text-left">Image</th>
-//             <th className="p-3 text-left">Product</th>
-//             <th className="p-3 text-right">Price</th>
-//             <th className="p-3 text-center">Quantity</th>
-//             <th className="p-3 text-right">Subtotal</th>
-//             <th className="p-3 text-center">Remove</th>
-//           </tr>
-//         </thead>
-//         <tbody>
-//         <tr className="h-14"></tr>
-//           {cartItems.map((item) => (
-//             <tr key={item.id} className="">
-//               <td className="p-2 bg-[#FBEBB5]">
-//                 <Image
-//                   src={item.image}
-//                   alt={item.name}
-//                   width={100}
-//                   height={100}
-//                   className="w-20 h-20 object-cover rounded"
-//                 />
-//               </td>
-//               <td className="p-3 font-medium">{item.name}</td>
-//               <td className="p-3 text-right">${item.price.toFixed(2)}</td>
-//               <td className=" text-center rounded-xl">
-//                 <input
-                  
-//                   min="1"
-//                   value={item.quantity}
-//                   className="w-8 py-1 text-center border rounded"
-//                 />
-//               </td>
-//               <td className="p-3 text-right">
-//                 ${(item.price * item.quantity).toFixed(2)}
-//               </td>
-//               <td className="p-3 text-center">
-//                 <button className="">
-                  
-// <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-// <path d="M23.625 7H20.125V4.8125C20.125 3.84727 19.3402 3.0625 18.375 3.0625H9.625C8.65977 3.0625 7.875 3.84727 7.875 4.8125V7H4.375C3.89102 7 3.5 7.39102 3.5 7.875V8.75C3.5 8.87031 3.59844 8.96875 3.71875 8.96875H5.37031L6.0457 23.2695C6.08945 24.202 6.86055 24.9375 7.79297 24.9375H20.207C21.1422 24.9375 21.9105 24.2047 21.9543 23.2695L22.6297 8.96875H24.2812C24.4016 8.96875 24.5 8.87031 24.5 8.75V7.875C24.5 7.39102 24.109 7 23.625 7ZM18.1562 7H9.84375V5.03125H18.1562V7Z" fill="#FBEBB5"/>
-// </svg>
-
-//                 </button>
-//               </td>
-//             </tr>
-//           ))}
-//         </tbody>
-//       </table>
-//     </div>
-//   );
-// };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 "use client"
 import React from "react";
 import Container from "@/components/Container";
@@ -142,8 +25,8 @@ function CartPage() {
     dispatch(updateQuantity({id,size,color,quantity}));
   };
 
-  const handleRemoveItem = (id: string) => {
-    dispatch(removeFromCart(id));
+  const handleRemoveItem = (id: string,size: string, color: string) => {
+    dispatch(removeFromCart({id,color,size}));
   };
 
   const subtotal = calculateSubtotal();
@@ -163,7 +46,7 @@ function CartPage() {
             />
           </div>
           <div className="col-span-1">
-            <CartSummary subtotal={subtotal} total={total} />
+            <CartSummary subtotal={subtotal} total={total} totalCartItons={cartItems.length} />
           </div>
         </div>
       </Container>
@@ -179,7 +62,7 @@ const CartTable = ({
 }: {
   cartItems: CartItem[];
   onQuantityChange: (id: string, size: string, color: string, quantity: number) => void;
-  onRemoveItem: (id: string) => void;
+  onRemoveItem: (id: string,size: string, color: string) => void;
 }) => {
   return (
     <div className="w-full overflow-x-auto rounded-lg shadow-sm">
@@ -260,7 +143,7 @@ const CartTable = ({
               </td>
               <td className="p-4 text-center">
                 <button
-                  onClick={() => onRemoveItem(item.id)}
+                  onClick={() => onRemoveItem(item.id,item.size,item.color)}
                   className="p-2 hover:bg-red-50 rounded-full transition-colors group"
                   aria-label="Remove item"
                 >
@@ -273,7 +156,11 @@ const CartTable = ({
             <tr>
               <td colSpan={7} className="p-8 text-center text-gray-500">
                 <div className="flex flex-col items-center gap-4">
-                  <div className="text-6xl">🛒</div>
+                  <div className="text-6xl">
+                  <svg width="38" height="38" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M25.2356 19.1926H8.95237L9.76995 17.5273L23.3543 17.5027C23.8137 17.5027 24.2074 17.1746 24.2895 16.7207L26.1707 6.19062C26.2199 5.91445 26.1461 5.63008 25.9656 5.41406C25.8765 5.30775 25.7652 5.22211 25.6396 5.16309C25.514 5.10407 25.3771 5.07308 25.2383 5.07227L7.95706 5.01484L7.8094 4.32031C7.71643 3.87734 7.31721 3.55469 6.86331 3.55469H2.6387C2.3827 3.55469 2.13719 3.65638 1.95617 3.8374C1.77516 4.01841 1.67346 4.26393 1.67346 4.51992C1.67346 4.77592 1.77516 5.02143 1.95617 5.20245C2.13719 5.38346 2.3827 5.48516 2.6387 5.48516H6.08127L6.72659 8.55312L8.31526 16.2449L6.26995 19.5836C6.16373 19.727 6.09975 19.8972 6.08526 20.075C6.07076 20.2528 6.10632 20.4312 6.18791 20.5898C6.35198 20.9152 6.68284 21.1203 7.04924 21.1203H8.76643C8.40035 21.6065 8.20261 22.1988 8.20315 22.8074C8.20315 24.3551 9.46096 25.6129 11.0086 25.6129C12.5563 25.6129 13.8141 24.3551 13.8141 22.8074C13.8141 22.1977 13.6117 21.6043 13.2508 21.1203H17.6559C17.2898 21.6065 17.0921 22.1988 17.0926 22.8074C17.0926 24.3551 18.3504 25.6129 19.8981 25.6129C21.4457 25.6129 22.7035 24.3551 22.7035 22.8074C22.7035 22.1977 22.5012 21.6043 22.1403 21.1203H25.2383C25.7688 21.1203 26.2035 20.6883 26.2035 20.1551C26.202 19.8994 26.0993 19.6546 25.9179 19.4743C25.7366 19.294 25.4913 19.1927 25.2356 19.1926ZM8.35901 6.91797L24.1035 6.96992L22.5613 15.6051L10.1938 15.627L8.35901 6.91797ZM11.0086 23.6715C10.5328 23.6715 10.1446 23.2832 10.1446 22.8074C10.1446 22.3316 10.5328 21.9434 11.0086 21.9434C11.4844 21.9434 11.8727 22.3316 11.8727 22.8074C11.8727 23.0366 11.7816 23.2564 11.6196 23.4184C11.4576 23.5805 11.2378 23.6715 11.0086 23.6715ZM19.8981 23.6715C19.4223 23.6715 19.034 23.2832 19.034 22.8074C19.034 22.3316 19.4223 21.9434 19.8981 21.9434C20.3739 21.9434 20.7621 22.3316 20.7621 22.8074C20.7621 23.0366 20.6711 23.2564 20.5091 23.4184C20.347 23.5805 20.1272 23.6715 19.8981 23.6715Z" fill="black"/>
+              </svg>
+                  </div>
                   <div className="text-lg">Your cart is empty</div>
                   <Button
                     variant="outline"
@@ -293,7 +180,7 @@ const CartTable = ({
   );
 };
 
-const CartSummary = ({ subtotal, total }: { subtotal: number; total: number }) => {
+const CartSummary = ({ subtotal, total, totalCartItons }: { subtotal: number; total: number; totalCartItons?: number }) => {
   return (
     <div className="bg-[#FFF9E5] p-6 rounded-lg shadow-sm">
       <h2 className="font-semibold text-2xl mb-6">Cart Summary</h2>
@@ -309,8 +196,9 @@ const CartSummary = ({ subtotal, total }: { subtotal: number; total: number }) =
           </span>
         </div>
       </div>
-      <Link href="/checkout" className="block">
+      <Link href={totalCartItons === 0 ? "" : "/checkout" } className="block">
         <Button 
+          disabled={totalCartItons === 0 ? true : false}
           variant="fBtn2" 
           size="f2"
           className="w-full transition-transform hover:scale-[1.02] active:scale-[0.98]"
