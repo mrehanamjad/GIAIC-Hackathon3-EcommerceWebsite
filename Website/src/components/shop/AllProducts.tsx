@@ -201,9 +201,9 @@ function AllProducts({ products }: AllProductsProps) {
 export default AllProducts;
 
 interface PageNavigateBtnsProps {
-  currentPage: number;
-  totalPages: number;
-  onPageChange: (page: number) => void;
+  currentPage?: number;
+  totalPages?: number;
+  onPageChange?: (page: number) => void;
   className?: string;
 }
 
@@ -217,7 +217,7 @@ export const PageNavigateBtns = ({
     <div
       className={`flex justify-center items-center gap-3 mt-10 mb-16 ${className}`}
     >
-      {Array.from({ length: Math.min(totalPages, 3) }, (_, i) => i + 1).map(
+      {totalPages && Array.from({ length: Math.min(totalPages, 3) }, (_, i) => i + 1).map(
         (page) => (
           <Button
             key={page}
@@ -227,17 +227,17 @@ export const PageNavigateBtns = ({
                 ? "bg-[#FBEBB5] hover:bg-[#FBEBB5]/30"
                 : "bg-[#FFF9E5] hover:bg-[#FFF9E5]/50"
             } text-black`}
-            onClick={() => onPageChange(page)}
+            onClick={() => onPageChange &&  onPageChange(page)}
           >
             {page}
           </Button>
         )
       )}
-      {currentPage < totalPages && (
+      {currentPage && totalPages && currentPage < totalPages && (
         <Button
           size={"icon"}
           className="bg-[#FFF9E5] hover:bg-[#FFF9E5]/50 text-black px-7"
-          onClick={() => onPageChange(currentPage + 1)}
+          onClick={() => onPageChange && onPageChange(currentPage + 1)}
         >
           Next
         </Button>
