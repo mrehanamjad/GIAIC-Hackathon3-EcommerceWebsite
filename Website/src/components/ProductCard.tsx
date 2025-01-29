@@ -30,7 +30,11 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
   const handleWishlistClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    isWishlistPg ? dispatch(removeFromWishlist(id)) : dispatch(addToWishlist({ id, name, price, imagePath }));
+    if (isWishlistPg) {
+      dispatch(removeFromWishlist(id));
+    } else {
+      dispatch(addToWishlist({ id, name, price, imagePath }));
+    }
   };
 
   const imageSizes =

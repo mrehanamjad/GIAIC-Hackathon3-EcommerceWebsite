@@ -1,5 +1,4 @@
-"use client";
-import React, { useState } from "react";
+import React from "react";
 import Container from "../Container";
 import { Search, SlidersHorizontal } from "lucide-react";
 import { Input } from "../ui/input";

@@ -174,7 +174,7 @@ function AllProducts({ products }: AllProductsProps) {
                 Oops! Something went wrong.
               </h2>
               <p className="text-gray-600 text-center">
-                We're unable to process your request right now. Please try again
+                We&apos;re unable to process your request right now. Please try again
                 later.
               </p>
 
