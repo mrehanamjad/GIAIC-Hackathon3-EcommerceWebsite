@@ -67,7 +67,7 @@ function BlogsPage() {
               <BlogCardLg key={index} {...blog} />
             ))}
              {/* TODO: make this functional */}
-                    <PageNavigateBtns currentPage={0} onPageChange={(a:number)=>{}} totalPages={32} className="mb-3 mt-5" />
+                    <PageNavigateBtns currentPage={0} onPageChange={(a:number)=>{console.log(a)}} totalPages={32} className="mb-3 mt-5" />
           </div>
           <div className="col-span-1 w-full h-full py-5">
             <div className="flex flex-col items-center gap-10">
