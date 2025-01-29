@@ -204,6 +204,7 @@ interface PageNavigateBtnsProps {
   currentPage: number;
   totalPages: number;
   onPageChange: (page: number) => void;
+  className?: string;
 }
 
 export const PageNavigateBtns = ({
@@ -211,7 +212,7 @@ export const PageNavigateBtns = ({
   currentPage,
   totalPages,
   onPageChange,
-}: PageNavigateBtnsProps & { className?: string }) => {
+}: PageNavigateBtnsProps) => {
   return (
     <div
       className={`flex justify-center items-center gap-3 mt-10 mb-16 ${className}`}
