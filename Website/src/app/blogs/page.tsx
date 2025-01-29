@@ -66,7 +66,7 @@ function BlogsPage() {
             {blogs.map((blog, index) => (
               <BlogCardLg key={index} {...blog} />
             ))}
-            // TODO: make this functional
+             {/* TODO: make this functional */}
                     <PageNavigateBtns currentPage={0} onPageChange={()=>{}} totalPages={32} className="mb-3 mt-5" />
           </div>
           <div className="col-span-1 w-full h-full py-5">
