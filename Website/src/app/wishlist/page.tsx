@@ -2,8 +2,6 @@
 import React from 'react'
 import Container from '@/components/Container'
 import ProductCard from '@/components/ProductCard'
-import { Button } from '@/components/ui/button'
-import Link from 'next/link'
 import { useAppSelector } from '@/lib/store/hooks'
 import PageHero from '@/components/PageHero'
 

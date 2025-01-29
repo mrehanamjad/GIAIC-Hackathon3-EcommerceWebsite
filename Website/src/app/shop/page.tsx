@@ -15,7 +15,7 @@ interface ProductI {
 async function getProducts() {
   try {
     const products = await client.fetch(
-      `*[_type == "produc"]{id,name,imagePath,price,category}`
+      `*[_type == "product"]{id,name,imagePath,price,category}`
     );
     return products;
   } catch (error) {
@@ -36,4 +36,3 @@ async function ShopPage() {
 }
 
 export default ShopPage;
-

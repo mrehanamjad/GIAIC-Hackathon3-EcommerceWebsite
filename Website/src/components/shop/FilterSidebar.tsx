@@ -1,11 +1,6 @@
-"use client";
-import React, { useState } from "react";
+import React from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 
-interface Category {
-  id: string;
-  name: string;
-}
 
 const FilterSidebar = ({
   showOnSmallDivices = true,

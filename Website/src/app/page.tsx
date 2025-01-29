@@ -1,7 +1,6 @@
 import Hero from "@/components/home/Hero";
 import ProductSection from "@/components/home/ProductSection";
 import Section2 from "@/components/home/Section2";
-import data from "@/data/data.json"
 import ProductCard from "@/components/ProductCard";
 import NewArrivals from "@/components/home/NewArrivals";
 import BlogCard from "@/components/home/BlogCard";
