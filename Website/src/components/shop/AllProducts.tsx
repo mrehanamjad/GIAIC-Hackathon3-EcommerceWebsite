@@ -26,7 +26,8 @@ function AllProducts({ products }: AllProductsProps) {
     min?: string;
     max?: string;
   }>({ min: "", max: "" });
-  const [filteredProducts, setFilteredProducts] = useState<ProductI[]>(products);
+  const [filteredProducts, setFilteredProducts] =
+    useState<ProductI[]>(products);
   const [search, setSearch] = useState("");
   const [searchError, setSearchError] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -34,83 +35,50 @@ function AllProducts({ products }: AllProductsProps) {
   const [view, setView] = useState<"grid" | "list">("grid");
   const [sortBy, setSortBy] = useState("Default");
 
-  // Debounce search function
-  const debounce = (func: Function, wait: number) => {
-    let timeout: NodeJS.Timeout;
-    return (...args: any[]) => {
-      clearTimeout(timeout);
-      timeout = setTimeout(() => func(...args), wait);
-    };
-  };
-
-  const performSearch = debounce((searchTerm: string) => {
-    setSearch(searchTerm);
-  }, 300);
-
   useEffect(() => {
-    if (!Array.isArray(products)) {
-      console.error("Products is not an array:", products);
-      return;
+    let result = products;
+
+    if (selectedCategories.length > 0) {
+      result = result.filter((product) =>
+        selectedCategories.includes(product.category.toLowerCase())
+      );
     }
 
-    try {
-      let result = [...products];
-
-      // Category filtering
-      if (selectedCategories.length > 0) {
-        result = result.filter((product) =>
-          selectedCategories.includes(product.category.toLowerCase())
-        );
-      }
-
-      // Search filtering - improved with error handling and normalization
-      if (search.trim().length > 0) {
-        const searchTerms = search.toLowerCase().trim().split(" ");
-        result = result.filter((product) => {
-          const productName = (product.name || "").toLowerCase();
-          return searchTerms.every(term => productName.includes(term));
-        });
-        setSearchError(result.length === 0);
-      } else {
-        setSearchError(false);
-      }
-
-      // Price range filtering
-      if (selectedPriceRange.min?.length !== 0) {
-        const minPrice = parseFloat(selectedPriceRange.min!);
-        if (!isNaN(minPrice)) {
-          result = result.filter((product) => product.price >= minPrice);
-        }
-      }
-
-      if (selectedPriceRange.max?.length !== 0) {
-        const maxPrice = parseFloat(selectedPriceRange.max!);
-        if (!isNaN(maxPrice)) {
-          result = result.filter((product) => product.price <= maxPrice);
-        }
-      }
-
-      // Sorting - with improved type safety
-      result = [...result].sort((a, b) => {
-        switch (sortBy) {
-          case "Price Low-High":
-            return (a.price || 0) - (b.price || 0);
-          case "Price High-Low":
-            return (b.price || 0) - (a.price || 0);
-          case "Newest":
-            return (a.id || "").localeCompare(b.id || "");
-          default:
-            return 0;
-        }
-      });
-
-      setFilteredProducts(result);
-      setCurrentPage(1);
-    } catch (error) {
-      console.error("Error filtering products:", error);
-      setFilteredProducts([]);
-      setSearchError(true);
+    if (search.length > 0) {
+      result = result.filter((product) =>
+        product.name.toLowerCase().includes(search.toLowerCase())
+      );
+      setSearchError(result.length === 0);
     }
+
+    if (selectedPriceRange.min?.length !== 0) {
+      result = result.filter(
+        (product) => product.price >= parseInt(selectedPriceRange.min!)
+      );
+    }
+
+    if (selectedPriceRange.max?.length !== 0) {
+      result = result.filter(
+        (product) => product.price <= parseInt(selectedPriceRange.max!)
+      );
+    }
+
+    // Apply sorting
+    result = [...result].sort((a, b) => {
+      switch (sortBy) {
+        case "Price Low-High":
+          return a.price - b.price;
+        case "Price High-Low":
+          return b.price - a.price;
+        case "Newest":
+          return a.id > b.id ? -1 : 1;
+        default:
+          return 0;
+      }
+    });
+
+    setFilteredProducts(result);
+    setCurrentPage(1); // Reset to first page when filters change
   }, [products, selectedCategories, selectedPriceRange, sortBy, search]);
 
   const handleCategoryFilterChange = (category: string) => {
@@ -148,15 +116,15 @@ function AllProducts({ products }: AllProductsProps) {
 
   return (
     <section>
-       <ProductFilterBar
+      <ProductFilterBar
         showSideFilterBarFunc={() => setShowSideFilterBar((prev) => !prev)}
         onViewChange={setView}
         onItemsPerPageChange={setItemsPerPage}
         onSortChange={setSortBy}
-        onSearchChange={performSearch}
         totalItems={filteredProducts.length}
         currentPage={currentPage}
         itemsPerPage={itemsPerPage}
+        onSearchChange={setSearch}
         view={view}
       />
       <Container>
@@ -170,7 +138,7 @@ function AllProducts({ products }: AllProductsProps) {
             handleClearFilters={HandleClearAllFilter}
             priceRange={selectedPriceRange}
           />
-          {paginatedProducts.length > 0 ? (
+          {!searchError ?  (
             <div
               className={`w-full grid gap-1 ${ view === "grid" ? "grid-cols-1 md:grid-cols-3 sm:grid-cols-2" : "grid-cols-1"}`}
             >
@@ -180,7 +148,7 @@ function AllProducts({ products }: AllProductsProps) {
                 </div>
               ))}
             </div>
-          ) : searchError ? (
+          ) :  (
             <div className="w-full h-full flex flex-col justify-center items-center gap-6 p-6 bg-gray-50 rounded-lg shadow-md">
               <Search size={56} />
               <h2 className="text-center text-gray-700 font-semibold text-lg">
@@ -199,26 +167,7 @@ function AllProducts({ products }: AllProductsProps) {
                 </button>
               </div>
             </div>
-          ) : (
-            <div className="w-full h-full flex flex-col justify-center items-center gap-4 p-4">
-              {/* Error Message */}
-              <h2 className="text-red-600 font-semibold text-lg">
-                Oops! Something went wrong.
-              </h2>
-              <p className="text-gray-600 text-center">
-                We&apos;re unable to process your request right now. Please try again
-                later.
-              </p>
-
-              {/* Retry Button */}
-              <button
-                onClick={() => window.location.reload()}
-                className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-500 transition"
-              >
-                Retry
-              </button>
-            </div>
-          )}
+          ) }
         </div>
         <PageNavigateBtns
           currentPage={currentPage}

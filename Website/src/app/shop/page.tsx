@@ -39,6 +39,25 @@ export default async function ShopPage() {
     );
   } catch (error) {
     console.error("Error loading shop page:", error);
-    return <div>Error loading products. Please try again later.</div>;
+    return (
+        <div className="w-full h-full flex flex-col justify-center items-center gap-4 p-4">
+          {/* Error Message */}
+          <h2 className="text-red-600 font-semibold text-lg">
+            Oops! Something went wrong.
+          </h2>
+          <p className="text-gray-600 text-center">
+          Error loading products. Please try again later.
+          </p>
+
+          {/* Retry Button */}
+          <button
+            onClick={() => window.location.reload()}
+            className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-500 transition"
+          >
+            Retry
+          </button>
+        </div>
+      
+    );
   }
 };
