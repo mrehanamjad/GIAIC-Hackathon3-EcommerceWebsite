@@ -5,8 +5,8 @@ import { client } from '@/sanity/lib/client';
 export async function GET() {
   try {
     // Fetch all products from Sanity
-    const query = `*[_type == "product"]{_id, name}`;
-    const products: { _id: string; name: string }[] = await client.fetch(query);
+    const query = `*[_type == "product"]{id, name}`;
+    const products: { id: string; name: string }[] = await client.fetch(query);
 
     if (products.length === 0) {
       return NextResponse.json({ message: "No products found." });
@@ -16,11 +16,11 @@ export async function GET() {
     const productMap: Map<string, string[]> = new Map();
 
     for (const product of products) {
-      const { name, _id } = product;
+      const { name, id } = product;
       if (!productMap.has(name)) {
         productMap.set(name, []);
       }
-      productMap.get(name)!.push(_id);
+      productMap.get(name)!.push(id);
     }
 
     // Prepare delete mutations for duplicates (keeping one)
