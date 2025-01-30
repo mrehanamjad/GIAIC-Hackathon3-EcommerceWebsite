@@ -24,15 +24,21 @@ async function getProducts() {
   }
 }
 
-async function ShopPage() {
-  const products: ProductI[] = await getProducts();
-  return (
-    <div className="w-full">
-      <PageHero name="Shop" />
-      <AllProducts products={products} />
-      <DeliveryServices />
-    </div>
-  );
-}
-
-export default ShopPage;
+export default async function ShopPage() {
+  try {
+    const products: ProductI[] = await getProducts();
+    if (!products || products.length === 0) {
+      return <div>No products available</div>;
+    }
+    return (
+      <div className="w-full">
+        <PageHero name="Shop" />
+        <AllProducts products={products} />
+        <DeliveryServices />
+      </div>
+    );
+  } catch (error) {
+    console.error("Error loading shop page:", error);
+    return <div>Error loading products. Please try again later.</div>;
+  }
+};
