@@ -26,14 +26,15 @@ export async function GET() {
     // Prepare delete mutations for duplicates (keeping one)
     const deleteMutations: { delete: { id: string } }[] = [];
 
-    for (const [_, ids] of Array.from(productMap.entries())) {
-      if (ids.length > 1) {
-        const idsToDelete: string[] = ids.slice(1); // Keep one, delete the rest
-        idsToDelete.forEach((id: string) => {
-          deleteMutations.push({ delete: { id } });
-        });
+    for (const [, ids] of Array.from(productMap.entries())) {
+        if (ids.length > 1) {
+          const idsToDelete: string[] = ids.slice(1); // Keep one, delete the rest
+          idsToDelete.forEach((id: string) => {
+            deleteMutations.push({ delete: { id } });
+          });
+        }
       }
-    }
+      
 
     if (deleteMutations.length === 0) {
       return NextResponse.json({ message: "No duplicates found." });
