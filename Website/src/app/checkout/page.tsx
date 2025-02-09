@@ -34,14 +34,6 @@ interface CheckoutFormData {
   routingNumber?: string;
 }
 
-interface CartItem {
-  name: string;
-  color: string;
-  size: string;
-  quantity: number;
-  price: number;
-}
-
 
 
 function Page() {
