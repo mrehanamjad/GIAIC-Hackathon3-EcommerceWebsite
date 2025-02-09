@@ -30,7 +30,7 @@ function CartPage() {
   };
 
   const subtotal = calculateSubtotal();
-  // You could add shipping, tax calculations here
+  //TODO: add shipping, tax calculations :
   const total = subtotal;
 
   return (

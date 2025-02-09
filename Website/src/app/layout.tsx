@@ -5,6 +5,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import StoreProvider from "./StoreProvider";
+// import {ClerkProvider} from "@clerk/nextjs"
 
 // Import Poppins font
 const poppins = Poppins({
@@ -35,6 +36,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+      // <ClerkProvider>
     <html lang="en">
       <body
         className={`${poppins.className}  ${geistSans.variable} ${geistMono.variable} antialiased`}
@@ -46,5 +48,6 @@ export default function RootLayout({
        </StoreProvider>
       </body>
     </html>
+      // {/* </ClerkProvider> */}
   );
 }

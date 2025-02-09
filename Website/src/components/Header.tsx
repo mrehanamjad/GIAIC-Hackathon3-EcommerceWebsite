@@ -137,6 +137,7 @@ export const MobileSidebar = ({isOpen,toggleSidebar}:{isOpen:boolean;toggleSideb
           >
             Contact
           </Link>
+          
         </nav>
       </div>
     </>

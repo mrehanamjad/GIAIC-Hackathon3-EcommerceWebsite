@@ -16,6 +16,7 @@ const ProductDetail = ({
   category,
   tags,
   id,
+  _id,
   images = [] // Array of image paths
 }: {
   name: string;
@@ -25,6 +26,7 @@ const ProductDetail = ({
   category?: string;
   tags?: string[];
   id: string;
+  _id: string;
   images?: string[];
 }) => {
 
@@ -51,7 +53,7 @@ const ProductDetail = ({
   const handleAddToCart = () => {
 
     dispatch(addToCart({
-     id,
+     id:_id,
      name,
      price,
      imagePath,
