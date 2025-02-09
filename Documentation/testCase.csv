@@ -1,0 +1,34 @@
+test_Id,Description,Status
+TC-001,Verify that the home page loads successfully.,Passed
+TC-002,Verify that the featured products section displays correctly.,Passed
+TC-003,Verify that the banner images load properly.,Passed
+TC-004,Verify that clicking on a product redirects to the product details page.,Passed
+TC-005,Verify that the navigation menu and footer links work correctly.,Passed
+TC-006,"Verify that all products are displayed with images, names, and prices.",Passed
+TC-007,"Verify that filters (price range, category, brand, etc.) work as expected.",Passed
+TC-008,"Verify that sorting options (price low to high, high to low, newest, etc.) function correctly.",Passed
+TC-009,Verify pagination works if there are many products.,Passed
+TC-010,"Verify that product details (name, price, description, images) load correctly.",Passed
+TC-011,"Verify that selecting different variations (color, size, material) updates the price and availability.",
+TC-012,"Verify that the ""Add to Cart"" button functions correctly.",Passed
+TC-013,"Verify that clicking the ""Add to Wishlist"" button functions correctly",
+TC-014,Verify that users can view product reviews and ratings.,Passed
+TC-015,Verify that products can be added to the cart.,Passed
+TC-016,Verify that cart updates when items are removed or quantities are changed.,Passed
+TC-017,Verify that the total price updates correctly when adding/removing items.,Passed
+TC-018,"Verify that the ""Proceed to Checkout"" button works.",Passed
+TC-019,Verify that products can be added to the wishist.,Passed
+TC-020,Verify that remove  products from  wishist functions well.,Passed
+TC-021,Verify that users can enter billing and shipping details.,
+TC-022,Verify that payment methods work correctly.,
+TC-023,Verify that an order confirmation email is sent after successful payment.,
+TC-024,Verify that users can register successfully.,Passed
+TC-025,Verify that users can log in with valid credentials.,Passed
+TC-026,: Verify that users cannot log in with invalid credentials.,Passed
+TC-027,Verify that logged-in users can access their order history and profile.,Passed
+TC-028,"Verify that admins can add, update, and delete products in Sanity CMS.",Passed
+TC-029,Verify that orders appear in the admin dashboard with the correct status.,Passed
+TC-030,"Verify that admins can update the order status (Pending, Shipped, Delivered).",Passed
+TC-031,"Verify that the website is fully responsive on mobile, tablet, and desktop.",Passed
+TC-032,Verify that images and pages load quickly and smoothly.,Passed
+TC-033,"Verify that the website works properly on different browsers (Chrome, Firefox, Safari, Edge).",
