@@ -12,13 +12,43 @@ import { useForm } from "react-hook-form";
 import {client} from "@/sanity/lib/client"
 import { nanoid } from 'nanoid';
 import { useRouter } from "next/navigation";
+
+
+export interface CheckoutFormValues {
+  // Billing details
+  firstName: string
+  lastName: string
+  address: string
+  city: string
+  province: string
+  zipCode: string
+  country: string
+  phone: string
+  email: string
+
+  // Payment method
+  paymentMethod: "Credit Card" | "Bank Transfer" | "Cash On Delivery"
+
+  // Credit Card fields
+  cardNumber?: string
+  cardExpiry?: string
+  cardCVC?: string
+
+  // Bank Transfer fields
+  bankName?: string
+  accountNumber?: string
+  routingNumber?: string
+}
+
+
+
 function Page() {
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm();
+  } = useForm<CheckoutFormValues>();
 
    const cartItems = useAppSelector(state => state.cart.items);
    const dispatch = useAppDispatch();
@@ -32,7 +62,7 @@ function Page() {
 
   const selectedPaymentMethod = watch("paymentMethod");
 
- const onSubmit = async (orderData:any) => {
+ const onSubmit = async (orderData:CheckoutFormValues) => {
   try {
     const newOrder = {
       _type: 'order',
