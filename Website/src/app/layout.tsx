@@ -5,13 +5,13 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import StoreProvider from "./StoreProvider";
-// import {ClerkProvider} from "@clerk/nextjs"
+import { ClerkProvider } from "@clerk/nextjs";
 
 // Import Poppins font
 const poppins = Poppins({
   subsets: ["latin"],
   variable: "--font-poppins",
-  weight: ["100","200","300","400", "500", "600", "700"], // Customize weights as needed
+  weight: ["100", "200", "300", "400", "500", "600", "700"],
   display: "swap",
 });
 const geistSans = localFont({
@@ -32,22 +32,22 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
-      // <ClerkProvider>
-    <html lang="en">
-      <body
-        className={`${poppins.className}  ${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <StoreProvider>
-        <Header />
-        <main>{children}</main>
-       <Footer />
-       </StoreProvider>
-      </body>
-    </html>
-      // {/* </ClerkProvider> */}
+    <ClerkProvider>
+      <html lang="en">
+        <body
+          className={`${poppins.className} ${geistSans.variable} ${geistMono.variable} antialiased`}
+        >
+          <StoreProvider>
+            <Header />
+            <main>{children}</main>
+            <Footer />
+          </StoreProvider>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
+
+
