@@ -54,6 +54,7 @@
 
 import React from 'react';
 import { Package2, Truck, Clock, CreditCard } from 'lucide-react';
+import Image from 'next/image';
 
 const UserDashboard = () => {
   // Sample data - replace with your actual data
@@ -207,7 +208,9 @@ const UserDashboard = () => {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center space-x-4">
-                      <img
+                      <Image
+                      height={64}
+                      width={64}
                         src={order.products[0].image}
                         alt={order.products[0].name}
                         className="w-16 h-16 rounded object-cover"
