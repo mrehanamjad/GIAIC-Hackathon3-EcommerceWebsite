@@ -14,6 +14,7 @@ const ProductDetail = ({
   imagePath,
   description,
   category,
+  stockLevel,
   tags,
   id,
   _id,
@@ -25,6 +26,7 @@ const ProductDetail = ({
   description: string;
   category?: string;
   tags?: string[];
+  stockLevel: number;
   id: string;
   _id: string;
   images?: string[];
@@ -223,6 +225,8 @@ const ProductDetail = ({
             </div>
           </div>
 
+          <div className="flex gap-2"><b>In stock:</b> {stockLevel == 0 ? (<p className="text-red-500">Product out of stock</p> ) : (<p>{stockLevel}</p> )}</div>
+
           {/* Quantity and Add to Cart */}
           <div className="flex items-center space-x-4">
             <div className="flex items-center border rounded-lg border-black/50">
@@ -245,6 +249,7 @@ const ProductDetail = ({
               size="f2"
               onClick={handleAddToCart}
               className="transition-transform hover:scale-105 active:scale-95"
+              disabled={stockLevel == 0 ? true : false}
             >
               Add To Cart
             </Button>

@@ -11,7 +11,7 @@ import {
   SignedOut,
   UserButton
 } from '@clerk/nextjs'
-import { Button } from './ui/button';
+
 
 const Header = () => {
   const totalCartItems = useAppSelector(state => state.cart.items.length);
