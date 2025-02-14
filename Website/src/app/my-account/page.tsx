@@ -109,17 +109,6 @@ const UserDashboard = () => {
     }
   ];
 
-  const getStatusColor = (status:string) => {
-    const statusColors = {
-      Paid: "text-green-600",
-      Pending: "text-yellow-600",
-      Failed: "text-red-600",
-      Delivered: "text-green-600",
-      Processing: "text-blue-600",
-      Shipped: "text-purple-600"
-    };
-    return (statusColors as any)[status] || "text-gray-600";
-  };
 
   return (
     <div className="container mx-auto p-6 space-y-6">
@@ -228,10 +217,10 @@ const UserDashboard = () => {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="space-y-1">
-                      <p className={getStatusColor(order.paymentStatus)}>
+                      <p >
                         Payment: {order.paymentStatus}
                       </p>
-                      <p className={getStatusColor(order.orderStatus)}>
+                      <p >
                         Order: {order.orderStatus}
                       </p>
                     </div>
