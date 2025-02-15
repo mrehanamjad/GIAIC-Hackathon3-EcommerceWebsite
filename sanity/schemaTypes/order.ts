@@ -4,6 +4,12 @@ export default {
     type: 'document',
     fields: [
       {
+        name: 'userId',
+        title: 'User ID',
+        type: 'string',
+        description: 'Unique user identifier',
+      },
+      {
         name: 'orderId',
         title: 'Order ID',
         type: 'string',

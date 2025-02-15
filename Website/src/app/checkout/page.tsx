@@ -12,7 +12,7 @@ import { useForm } from "react-hook-form";
 import {client} from "@/sanity/lib/client"
 import { nanoid } from 'nanoid';
 import { useRouter } from "next/navigation";
-
+import { useUser } from "@clerk/nextjs";
 
 export interface CheckoutFormValues {
   // Billing details
@@ -43,12 +43,19 @@ export interface CheckoutFormValues {
 
 
 function Page() {
+
+  const { user } = useUser();
+
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm<CheckoutFormValues>();
+  } = useForm<CheckoutFormValues>({
+    defaultValues: {
+      email: user?.emailAddresses[0].emailAddress,
+    },
+  });
 
    const cartItems = useAppSelector(state => state.cart.items);
    const dispatch = useAppDispatch();
@@ -67,6 +74,7 @@ function Page() {
     const newOrder = {
       _type: 'order',
       orderId: oId,
+      userId: user?.id,
       customer: {
         name: orderData.firstName + ' ' + orderData.lastName,
         email: orderData.email,

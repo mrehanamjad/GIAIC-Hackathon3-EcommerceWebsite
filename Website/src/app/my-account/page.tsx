@@ -1,257 +1,273 @@
-// import Container from '@/components/Container'
-// import DeliveryServices from '@/components/DeliveryServices'
-// import PageHero from '@/components/PageHero'
-// import { Button } from '@/components/ui/button'
-// import { Checkbox } from '@/components/ui/checkbox'
-// import { Input } from '@/components/ui/input'
-// import React from 'react'
-
-// function myAccount() {
-//   return (
-//     <div className='w-full'>
-//         <PageHero name="My Account" />
-//             <Container className='px-4 my-10'>
-//                 <div className='w-full max-w-6xl mx-auto flex justify-between max-lg:flex-col max-lg:justify-center'>
-//                     <div className='w-full h-full text-black px-4 py-12 flex flex-col gap-9 max-lg:items-center'>
-//                         <h2 className='font-semibold text-4xl mb-3'>Login</h2>
-//                         <div className="flex flex-col gap-9">
-//                         <Input 
-//                             label='Username or email address'
-//                             type='email'
-//                         />
-//                         <Input 
-//                             label='Password'
-//                             type='password'
-//                         />
-//                         <label htmlFor='r-me' className='flex items-center gap-4'> <Checkbox id={"r-me"} /> Remember me</label>
-//                         </div>
-//                         <div className='flex items-center max-lg:flex-col gap-4'>
-//                             <Button variant={'fBtn2'} size={'f2'} className='w-44 '>Login</Button>
-//                             <span className='font-extralight text-sm text-black/70'>Lost Your Password?</span>
-//                         </div>
-//                     </div>
-//                     <div className='w-full h-full text-black px-4 py-12   flex flex-col gap-9 max-lg:items-center '>
-//                         <h2 className='font-semibold text-4xl mb-3'>SignUp</h2>
-                        
-//                         <Input label='Email address' />
-//                         <div className='font-light max-sm:text-center text-black/80 max-w-[26rem] text-justify space-y-4'>
-//                         <p >A link to set a new password will be sent to your email address.</p>
-//                         <p >Your personal data will be used to support your experience throughout this website, to manage access to your account, and for other purposes described in our <span className='font-medium'>privacy policy.</span></p>
-//                         </div>
-//                         <Button variant={'fBtn2'} size={'f2'} className='w-48'>Regester</Button>
-//                     </div>
-//                 </div>
-//             </Container>
-//         <DeliveryServices />
-//     </div>
-//   )
-// }
-
-// export default myAccount
-
-
-
-
 import React from 'react';
-import { Package2, Truck, Clock, CreditCard } from 'lucide-react';
+import { Package2, Truck, CreditCard, Clock } from 'lucide-react';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { client } from '@/sanity/lib/client';
+import { auth } from '@clerk/nextjs/server';
 import Image from 'next/image';
 
-const UserDashboard = () => {
-  // Sample data - replace with your actual data
-  const orders = [
-    {
-      id: "ORD-2024-001",
-      date: "2024-02-14",
-      address: {
-        street: "123 Main St",
-        city: "Austin",
-        state: "TX",
-        zipcode: "78701",
-        country: "USA"
-      },
-      products: [
-        {
-          name: "Modern Sofa",
-          image: "/api/placeholder/150/150",
-          color: "Gray",
-          size: "3-Seater",
-          quantity: 1,
-          price: 999.99
-        }
-      ],
-      totalAmount: 999.99,
-      paymentStatus: "Paid",
-      orderStatus: "Delivered"
-    },
-    {
-      id: "ORD-2024-002",
-      date: "2024-02-13",
-      address: {
-        street: "456 Oak Ave",
-        city: "Seattle",
-        state: "WA",
-        zipcode: "98101",
-        country: "USA"
-      },
-      products: [
-        {
-          name: "Dining Table",
-          image: "/api/placeholder/150/150",
-          color: "Walnut",
-          size: "6-Seater",
-          quantity: 1,
-          price: 799.99
-        }
-      ],
-      totalAmount: 799.99,
-      paymentStatus: "Pending",
-      orderStatus: "Processing"
-    }
-  ];
+// Define TypeScript Interfaces
+interface Address {
+    street: string;
+    city: string;
+    state: string;
+    zip: string;
+    country: string;
+  }
+  
+  interface Customer {
+    name: string;
+    email: string;
+    phone: string;
+    address: Address;
+  }
+  
+  interface Product {
+    _id: string;
+    name: string;
+    description?: string;
+    imagePath?: string;
+  }
+  
+  interface OrderItem {
+    quantity: number;
+    price: number;
+    product: Product;
+  }
+  
+  interface Order {
+    _id: string;
+    orderId: string;
+    orderStatus: string;
+    paymentMethod: string;
+    paymentStatus: string;
+    orderDate: string;
+    totalAmount: number;
+    customer: Customer;
+    items: OrderItem[];
+  }
 
+  const fetchOrders = async (userId: string): Promise<Order[]> => {
+    const query = `*[_type == "order" && userId == $userId]{
+      _id,
+      orderId,
+      orderStatus,
+      paymentMethod,
+      paymentStatus,
+      orderDate,
+      totalAmount,
+      customer{
+        name,
+        email,
+        phone,
+        address {
+          street,
+          city,
+          state,
+          zip,
+          country
+        }
+      },
+      items[]{
+        quantity,
+        price,
+        product->{
+          _id,
+          name,
+          description,
+          imagePath
+        }
+      }
+    }`;
+  
+    try {
+      const orders: Order[] = await client.fetch(query, { userId });
+      return orders;
+    } catch (error) {
+      console.error("Error fetching orders:", error);
+      return [];
+    }
+  };
+  
+  
+const UserDashboard = async () => {
+  
+    const { userId } = await auth();
+
+    const orders = await fetchOrders(userId as string);
+
+    type OrderStatus = "paid" | "pending" | "failed" | "delivered" | "processing" | "shipped";
+
+    const statusColors: Record<OrderStatus, string> = {
+      paid: "bg-green-100 text-green-800",
+      pending: "bg-yellow-100 text-yellow-800",
+      failed: "bg-red-100 text-red-800",
+      delivered: "bg-blue-100 text-blue-800",
+      processing: "bg-purple-100 text-purple-800",
+      shipped: "bg-indigo-100 text-indigo-800"
+    };
+    
+    const getStatusColor = (status: string) => {
+      return statusColors[status as OrderStatus] || "bg-gray-100 text-gray-800";
+    };
+    
 
   return (
-    <div className="container mx-auto p-6 space-y-6">
-      {/* Header Section */}
-      <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold">My Orders</h1>
-        <div className="text-sm text-gray-500">
-          Welcome back, User!
-        </div>
-      </div>
+    <div className="min-h-screen bg-gray-50">
 
-      {/* Order Statistics */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        {/* Stats Cards */}
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <div className="flex items-center">
-            <Package2 className="h-8 w-8 text-blue-500 mr-4" />
-            <div>
-              <p className="text-sm text-gray-500">Total Orders</p>
-              <p className="text-2xl font-bold">{orders.length}</p>
-            </div>
-          </div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Dashboard Header */}
+        <div className="mb-8">
+          <h2 className="text-3xl font-bold text-gray-900">My Orders</h2>
+          <p className="mt-1 text-gray-500">Track and manage your furniture orders</p>
         </div>
 
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <div className="flex items-center">
-            <Truck className="h-8 w-8 text-green-500 mr-4" />
-            <div>
-              <p className="text-sm text-gray-500">Delivered</p>
-              <p className="text-2xl font-bold">
-                {orders.filter(order => order.orderStatus === "Delivered").length}
-              </p>
-            </div>
-          </div>
-        </div>
+        {/* Stats Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+          <Card className="bg-white hover:shadow-lg transition-shadow">
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-sm font-medium text-gray-600">Total Orders</CardTitle>
+              <Package2 className="h-5 w-5 text-blue-500" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-3xl font-bold text-gray-900">{orders.length}</div>
+              <p className="text-sm text-gray-500 mt-1">Across all time</p>
+            </CardContent>
+          </Card>
+          
+          <Card className="bg-white hover:shadow-lg transition-shadow">
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-sm font-medium text-gray-600">In Transit</CardTitle>
+              <Truck className="h-5 w-5 text-green-500" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-3xl font-bold text-gray-900">
+                {orders.filter(order => order.orderStatus === 'Processing').length}
+              </div>
+              <p className="text-sm text-gray-500 mt-1">Currently processing</p>
+            </CardContent>
+          </Card>
 
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <div className="flex items-center">
-            <Clock className="h-8 w-8 text-yellow-500 mr-4" />
-            <div>
-              <p className="text-sm text-gray-500">Processing</p>
-              <p className="text-2xl font-bold">
-                {orders.filter(order => order.orderStatus === "Processing").length}
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <div className="flex items-center">
-            <CreditCard className="h-8 w-8 text-purple-500 mr-4" />
-            <div>
-              <p className="text-sm text-gray-500">Total Spent</p>
-              <p className="text-2xl font-bold">
+          <Card className="bg-white hover:shadow-lg transition-shadow">
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-sm font-medium text-gray-600">Total Spent</CardTitle>
+              <CreditCard className="h-5 w-5 text-purple-500" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-3xl font-bold text-gray-900">
                 ${orders.reduce((sum, order) => sum + order.totalAmount, 0).toFixed(2)}
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
+              </div>
+              <p className="text-sm text-gray-500 mt-1">Lifetime purchases</p>
+            </CardContent>
+          </Card>
 
-      {/* Orders Section */}
-      <div className="bg-white rounded-lg shadow-md">
-        <div className="p-6 border-b border-gray-200">
-          <h2 className="text-xl font-semibold">Recent Orders</h2>
+          <Card className="bg-white hover:shadow-lg transition-shadow">
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-sm font-medium text-gray-600">Last Order</CardTitle>
+              <Clock className="h-5 w-5 text-orange-500" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-xl font-bold text-gray-900">{orders[0].orderDate}</div>
+              <p className="text-sm text-gray-500 mt-1">Most recent purchase</p>
+            </CardContent>
+          </Card>
         </div>
-        
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Order ID</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Details</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Address</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {orders.map((order) => (
-                <tr key={order.id} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                    {order.id}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="flex items-center space-x-4">
-                      <Image
-                      height={64}
-                      width={64}
-                        src={order.products[0].image}
-                        alt={order.products[0].name}
-                        className="w-16 h-16 rounded object-cover"
-                      />
-                      <div>
-                        <p className="font-medium text-gray-900">{order.products[0].name}</p>
-                        <p className="text-sm text-gray-500">
-                          {order.products[0].color} • {order.products[0].size}
-                        </p>
-                        <p className="text-sm text-gray-500">
-                          Qty: {order.products[0].quantity}
-                        </p>
+
+        {/* Orders Table */}
+        <Card className="bg-white shadow-sm">
+          <CardHeader className="border-b bg-gray-50/50">
+            <CardTitle>Recent Orders</CardTitle>
+            <CardDescription>View and track your furniture orders</CardDescription>
+          </CardHeader>
+          <CardContent className="p-0">
+            <Table>
+              <TableHeader>
+                <TableRow className="bg-[#FFF9E5]">
+                  <TableHead className="font-semibold">Order Info</TableHead>
+                  <TableHead className="font-semibold">Product</TableHead>
+                  <TableHead className="font-semibold">Payment</TableHead>
+                  <TableHead className="font-semibold">Shipping Address</TableHead>
+                  <TableHead className="font-semibold">Amount</TableHead>
+                  <TableHead className="font-semibold">Payment Status</TableHead>
+                  <TableHead className="font-semibold">Order Status</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {orders.map((order) => (
+                  <TableRow key={order._id} className="hover:bg-gray-50">
+                    <TableCell className="font-medium">
+                      <div className="space-y-1">
+                        <div className="font-semibold">{order.orderId}</div>
+                        <div className="text-sm text-gray-500">{order.orderDate}</div>
                       </div>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="space-y-1">
-                      <p >
-                        Payment: {order.paymentStatus}
-                      </p>
-                      <p >
-                        Order: {order.orderStatus}
-                      </p>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <p className="text-sm text-gray-900">
-                      {order.address.street}<br />
-                      {order.address.city}, {order.address.state} {order.address.zipcode}<br />
-                      {order.address.country}
-                    </p>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                    ${order.totalAmount.toFixed(2)}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                      order.orderStatus === 'Delivered' ? 'bg-green-100 text-green-800' :
-                      order.orderStatus === 'Processing' ? 'bg-blue-100 text-blue-800' :
-                      'bg-yellow-100 text-yellow-800'
-                    }`}>
-                      {order.orderStatus}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {order.date}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+                    </TableCell>
+                    <TableCell className='min-w-60 '>
+                      {order.items.map((item) => (
+                        <div key={item.product._id} className="flex items-center space-x-4 min-w-60 w-full">
+                          <Image
+                            src={item.product.imagePath as string}
+                            alt={item.product.name}
+                            height={800}
+                            width={800}
+                            className="h-20 w-20 rounded-lg object-cover border"
+                          />
+                          <div>
+                            <div className="font-medium">{item.product.name}</div>
+                            <div className="text-sm text-gray-500">
+                              Qty: {item.quantity} × ${item.price}
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </TableCell>
+                    <TableCell>
+                      <div className="space-y-1">
+                        <div className="text-sm">
+                          <span className="text-gray-500">Method:</span> {order.paymentMethod}
+                        </div>
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="space-y-1 text-sm">
+                        <div>{order.customer.address.street}</div>
+                        <div>
+                          {order.customer.address.city}, {order.customer.address.state} {order.customer.address.zip}
+                        </div>
+                        <div className="text-gray-500">{order.customer.address.country}</div>
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="font-semibold">${order.totalAmount.toFixed(2)}</div>
+                    </TableCell>
+                    <TableCell>
+                        <div className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(order.paymentStatus.toLowerCase())}`}>
+                          {order.paymentStatus}
+                        </div>
+                    </TableCell>
+                    <TableCell>
+                    <div className={`px-3 py-1 rounded-full text-xs font-medium block ${getStatusColor(order.orderStatus.toLocaleLowerCase())}`}>
+                          {order.orderStatus}
+                        </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
