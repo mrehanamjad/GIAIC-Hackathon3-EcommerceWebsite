@@ -52,7 +52,7 @@ export default function UpdateStatus({
 
     try {
       console.log(data);
-      const response = await axios.post("/api/update-order-status", {
+      const response = await axios.post("/api/update-document", {
         documentId: orderId,
         updatedFieldObj: data
       });
@@ -131,7 +131,7 @@ export default function UpdateStatus({
             </Button>
           </form>
 
-          {message && <p className={`text-sm text-center text-[${message.color}]`}>{message.mess}</p>}
+          {message && <p className={`text-sm text-center `} style={{ color: message.color }} >{message.mess}</p>}
         </div>
       </PopoverContent>
     </Popover>

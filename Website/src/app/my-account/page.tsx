@@ -180,7 +180,7 @@ const UserDashboard = async () => {
               <Clock className="h-5 w-5 text-orange-500" />
             </CardHeader>
             <CardContent>
-              <div className="text-xl font-bold text-gray-900">{orders[0].orderDate}</div>
+              <div className="text-xl font-bold text-gray-900">{orders[0]?.orderDate || "000"}</div>
               <p className="text-sm text-gray-500 mt-1">Most recent purchase</p>
             </CardContent>
           </Card>
